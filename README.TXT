@@ -1,0 +1,1 @@
+In my project I will expand on assignment 7, where i will create a functioning database for a gamestop. This will be 4 different databases, one for every console and one for PC. I will be working alone. 
