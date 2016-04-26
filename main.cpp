@@ -6,17 +6,17 @@
 #include<iostream>
 #include<algorithm>
 #include<fstream>
-#include "MovieTree.h"
+#include "GSTree.h"
 #include<string>
 using namespace std;
 void showmainmenu(){
 	//A function to print the main menu
 	cout << "======Main Menu======" << endl;
-	cout << "1. Find a movie" << endl;
-	cout << "2. Rent a movie" << endl;
+	cout << "1. Find a game" << endl;
+	cout << "2. Rent a game" << endl;
 	cout << "3. Print the inventory" << endl;
-	cout << "4. Delete a movie" << endl;
-	cout << "5. Count the movies" << endl;
+	cout << "4. Delete a NODE" << endl;
+	cout << "5. Count the inventory" << endl;
 	cout << "6. Quit" << endl;
 }
 
