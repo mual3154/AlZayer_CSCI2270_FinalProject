@@ -1,51 +1,54 @@
-#ifndef MOVIETREE_H
-#define MOVIETREE_H
+#ifndef GSTREE_H
+#define GSTREE_H
 
 #include<iostream>
 #include<string>
-struct MovieNode{
-    int ranking;
+struct GameNode{
+    int IGNranking;
     std::string title;
-    int year;
+    int relyear;
     int quantity;
-    MovieNode *parent;
-    MovieNode *leftChild;
-    MovieNode *rightChild;
+    GameNode *parent;
+    GameNode *leftChild;
+    GameNode *rightChild;
 
-    MovieNode(){};
+    GameNode(){};
 
-    MovieNode(int in_ranking, std::string in_title, int in_year, int in_quantity)
+    GameNode(int in_ranking, std::string in_title, int in_year, int in_quantity)
     {
-        ranking = in_ranking;
+        IGNranking = in_ranking;
         title = in_title;
-        year = in_year;
-        this->quantity = in_quantity;
+        relyear = in_year;
+        quantity = in_quantity;
     }
 
 };
 
-class MovieTree
+class GSTree
 {
     public:
-        MovieTree();
-        ~MovieTree();
-	int countMovieNodes();
+        GSTree();
+        ~GSTree();
+	int countGameNodes();
 	void DeleteAll();
-	void deleteMovieNode(std::string title);
-	void printMovieInventory();
-        void addMovieNode(int ranking, std::string title, int releaseYear, int quantity);
-        void findMovie(std::string title);
-        void rentMovie(std::string title);
-
+	void deleteGameNode(std::string title);
+	void printGameInventory();
+        void addGameNode(int ranking, std::string title, int releaseYear, int quantity);
+        void findGame(std::string title);
+        void sellGame(std::string title);
+	void removeFromStore();
+	void moveToStore();
+	bool foundInStore(std::string gameTitle);
     protected:
     private:
-        void printMovieInventory(MovieNode *node);
-        MovieNode* search(std::string title);
-        MovieNode *root;
-	MovieNode* treeMinimum(MovieNode *node);
-	void DeleteAll(MovieNode *node);
-	void countMovieNodes(MovieNode *node, int *c);
+	
+        void printGameInventory(GameNode *node);
+        GameNode* search(std::string title);
+        GameNode *root;
+	GameNode* treeMinimum(GameNode *node);
+	void DeleteAll(GameNode *node);
+	void countGameNodes(GameNode *node, int *c);
 
 };
 
-#endif // MOVIETREE_H
+#endif // GSTREE_H

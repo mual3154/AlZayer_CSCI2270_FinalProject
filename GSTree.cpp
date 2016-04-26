@@ -1,16 +1,16 @@
-#include "MovieTree.h"
+#include "GSTree.h"
 #include<string>
 #include<iostream>
 using namespace std;
 
 
-void MovieTree::addMovieNode(int ranking, string title , int releaseYear , int quantity){
-	MovieNode *tmp = new MovieNode;
+void GSTree::addGameNode(int ranking, string title , int releaseYear , int quantity){
+	GameNode *tmp = new GameNode;
 	tmp = root;
-	MovieNode *parent = new MovieNode;
+	GameNode *parent = new GameNode;
 	parent = NULL;
 	
-	MovieNode *node = new MovieNode(ranking, title, releaseYear, quantity);
+	GameNode *node = new GameNode(ranking, title, releaseYear, quantity);
 	node->leftChild = NULL;
 	node->rightChild = NULL;
 	node->parent = NULL;
@@ -40,9 +40,9 @@ void MovieTree::addMovieNode(int ranking, string title , int releaseYear , int q
 }
 
 
-void MovieTree::findMovie(string title){
+void GSTree::findGame(string title){
 	bool found = false;
-	MovieNode *node = new MovieNode;
+	GameNode *node = new GameNode;
 	node = root;
 	while(node !=NULL){
 		if(title.compare(node->title) < 0){
@@ -52,11 +52,11 @@ void MovieTree::findMovie(string title){
 			node = node->rightChild;
 		}
 		else{
-			cout << "Movie Info:" << endl;
+			cout << "Game Info:" << endl;
 			cout << "===========" << endl;
-			cout << "Ranking:" << node->ranking << endl;
+			cout << "Ranking:" << node->IGNranking << endl;
 			cout << "Title:" << node->title << endl;
-			cout << "Year:" << node->year << endl;
+			cout << "Year:" << node->relyear << endl;
 			cout << "Quantity:" << node->quantity << endl;
 			found = true;
 			break;
@@ -68,9 +68,9 @@ void MovieTree::findMovie(string title){
 	}
 }
 
-void MovieTree::rentMovie(string title){
+void GSTree::sellGame(string title){
 	bool found = false;
-	MovieNode *node = new MovieNode;
+	GameNode *node = new GameNode;
 	node = root;
 	while(node !=NULL){
 		if(title.compare(node->title) < 0){
@@ -81,80 +81,79 @@ void MovieTree::rentMovie(string title){
 		}
 		else{
 			if(node->quantity > 0){
-				cout << "Movie has been rented." << endl;
+				cout << "Game has been sold." << endl;
 				node->quantity = node->quantity-1;
-				cout << "Movie Info:" << endl;
+				cout << "Game Info:" << endl;
 				cout << "===========" << endl;
-				cout << "Ranking:" << node->ranking << endl;
+				cout << "Ranking:" << node->IGNranking << endl;
 				cout << "Title:" << node->title << endl;
-				cout << "Year:" << node->year << endl;
+				cout << "Year:" << node->relyear << endl;
 				cout << "Quantity:" << node->quantity << endl;
 				found = true;
 				if(node->quantity == 0){
-					deleteMovieNode(node->title);
+					deleteGameNode(node->title);
 				}
 				break;
 			}
 			else{
-			cout <<"Movie out of stock." << endl;
+			cout <<"Game out of stock." << endl;
 			}
 		}
 
 	}
 	if(found == false){
-		cout << "Movie not found." << endl;
+		cout << "Game not found." << endl;
 	}
 }
 
-void MovieTree::printMovieInventory(MovieNode *node){
+void GSTree::printGameInventory(GameNode *node){
 	if(node->leftChild !=NULL){
-		printMovieInventory(node->leftChild);
+		printGameInventory(node->leftChild);
 	}
-	cout << "Movie: " << node->title << " " << node->quantity << endl;
+	cout << "Game: " << node->title << " " << node->quantity << endl;
 	if(node->rightChild != NULL){
-		printMovieInventory(node->rightChild);
+		printGameInventory(node->rightChild);
 	}
 }
 
-MovieTree::MovieTree(){
+GSTree::GSTree(){
 
 }
 
-void MovieTree::printMovieInventory(){
-	printMovieInventory(root);
+void GSTree::printGameInventory(){
+	printGameInventory(root);
 }
 
-int MovieTree::countMovieNodes(){
-	int *m = new int;
-	*m = 0;
-	MovieNode *tmp = new MovieNode;
+int GSTree::countGameNodes(){
+	int *m = 0;
+	GameNode *tmp = new GameNode;
 	tmp = root;
-	countMovieNodes(tmp , m);
+	countGameNodes(tmp , m);
 	return *m;
 }
 
 
-void MovieTree::countMovieNodes(MovieNode *node, int *c){
+void GSTree::countGameNodes(GameNode *node, int *c){
 	if(node->leftChild != NULL){
-		countMovieNodes(node->leftChild , c);
+		countGameNodes(node->leftChild , c);
 	}
 	*c = *c + 1;
 	if(node->rightChild !=NULL){
-		countMovieNodes(node->rightChild, c);
+		countGameNodes(node->rightChild, c);
 	}
 }
 
-MovieNode* MovieTree::treeMinimum(MovieNode *node){
+GameNode* GSTree::treeMinimum(GameNode *node){
 	while(node->leftChild !=NULL){
 		node = node->leftChild;
 		return node;
 	}
 }
 
-void MovieTree::deleteMovieNode(std::string title){
-	MovieNode *tmp = new MovieNode;
-	MovieNode *min = new MovieNode;
-	MovieNode *parent = new MovieNode;
+void GSTree::deleteGameNode(std::string title){
+	GameNode *tmp = new GameNode;
+	GameNode *min = new GameNode;
+	GameNode *parent = new GameNode;
 	tmp = search(title);
 	parent = tmp->parent;
 	if(tmp != NULL){
@@ -219,35 +218,33 @@ void MovieTree::deleteMovieNode(std::string title){
 
 	}
 	else{
-		cout << "Movie not found." << endl;
+		cout << "Game not found." << endl;
 	}
 
 }
 
-void MovieTree::DeleteAll(){
-	MovieNode *tmp = new MovieNode;
-	tmp = root;
+void GSTree::DeleteAll(){
+	GameNode *tmp = root;
 	DeleteAll(tmp);
 	cout << "Goodbye!" << endl;
 }
 
-void MovieTree::DeleteAll(MovieNode *node){
+void GSTree::DeleteAll(GameNode *node){
 	if(node !=NULL){
 		if(node->leftChild !=NULL){
 			DeleteAll(node->leftChild);
 		}
 		if(node->rightChild !=NULL){
-		DeleteAll(node->rightChild);
+			DeleteAll(node->rightChild);
 		}
 	cout << "Deleting: " << node->title << endl;
 	delete node;
 	}
 }
 
-MovieNode* MovieTree::search(std::string title){
+GameNode* GSTree::search(std::string title){
 	bool found = false;
-	MovieNode *node = new MovieNode;
-	node = root;
+	GameNode *node = root;
 	while(node !=NULL){
 		if(title.compare(node->title) < 0){
 			node = node->leftChild;
@@ -264,3 +261,29 @@ MovieNode* MovieTree::search(std::string title){
 	return NULL;
 
 }
+
+bool GSTree::foundInStore(string gameTitle , int *amount){
+	bool found = false;
+        GameNode *node = new GameNode;
+        node = root;
+        while(node !=NULL){
+                if(title.compare(node->title) < 0){
+                        node = node->leftChild;
+                }
+                else if(title.compare(node->title) > 0){
+                        node = node->rightChild;
+                }
+                else{
+			found == true;
+			amount = node->quantity /2;
+			return true;
+                }
+
+        }
+        if(found == false){
+		return false;
+        }
+
+
+}
+
