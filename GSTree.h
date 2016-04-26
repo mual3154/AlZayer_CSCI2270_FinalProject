@@ -4,9 +4,11 @@
 #include<iostream>
 #include<string>
 struct GameNode{
-    int IGNranking;
+    int ranking;
+    int IGNrating;
     std::string title;
-    int relyear;
+    std::string console;
+    double price;
     int quantity;
     GameNode *parent;
     GameNode *leftChild;
@@ -14,12 +16,14 @@ struct GameNode{
 
     GameNode(){};
 
-    GameNode(int in_ranking, std::string in_title, int in_year, int in_quantity)
+    GameNode(int in_ranking, std::string in_title, int in_IGNrating , double in_price, int in_quantity, std::string in_console)
     {
-        IGNranking = in_ranking;
+        ranking = in_ranking;
         title = in_title;
-        relyear = in_year;
+        price = in_price;
         quantity = in_quantity;
+	console = in_console;
+	IGNrating = in_IGNrating;
     }
 
 };
@@ -33,7 +37,7 @@ class GSTree
 	void DeleteAll();
 	void deleteGameNode(std::string title);
 	void printGameInventory();
-        void addGameNode(int ranking, std::string title, int releaseYear, int quantity);
+        void addGameNode(int ranking, std::string title, int IGNrating, double price, int quantity, std::string console);
         void findGame(std::string title);
         void sellGame(std::string title);
 	void removeFromStore();

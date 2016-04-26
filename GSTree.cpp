@@ -4,13 +4,13 @@
 using namespace std;
 
 
-void GSTree::addGameNode(int ranking, string title , int releaseYear , int quantity){
+void GSTree::addGameNode(int ranking, string title , int IGNrating, double price, int quantity, string console){
 	GameNode *tmp = new GameNode;
 	tmp = root;
 	GameNode *parent = new GameNode;
 	parent = NULL;
 	
-	GameNode *node = new GameNode(ranking, title, releaseYear, quantity);
+	GameNode *node = new GameNode(ranking, title, IGNrating , price, quantity, console);
 	node->leftChild = NULL;
 	node->rightChild = NULL;
 	node->parent = NULL;
@@ -41,68 +41,42 @@ void GSTree::addGameNode(int ranking, string title , int releaseYear , int quant
 
 
 void GSTree::findGame(string title){
-	bool found = false;
-	GameNode *node = new GameNode;
-	node = root;
-	while(node !=NULL){
-		if(title.compare(node->title) < 0){
-			node = node->leftChild;
-		}
-		else if(title.compare(node->title) > 0){
-			node = node->rightChild;
-		}
-		else{
-			cout << "Game Info:" << endl;
-			cout << "===========" << endl;
-			cout << "Ranking:" << node->IGNranking << endl;
-			cout << "Title:" << node->title << endl;
-			cout << "Year:" << node->relyear << endl;
-			cout << "Quantity:" << node->quantity << endl;
-			found = true;
-			break;
-		}
+	GameNode *node = search(title);
+	if(node !=NULL){
+		cout << "Game Info:" << endl;
+		cout << "===========" << endl;
+		cout << "Ranking: " << node->ranking << endl;
+		cout << "Title: " << node->title << endl;
+		cout << "IGN rating: " << node->IGNrating << endl;
+		cout << "Price: " << node->price << endl;
+		cout << "Quantity: " << node->quantity << endl;
+		cout << "Console: " << node->console << endl;
+	}
+	else{
+		cout << "Game is not in stock.\n Restock or search for in another branch." << endl;
+	}
 
-	}
-	if(found == false){
-		cout << "Movie not found." << endl;
-	}
 }
 
 void GSTree::sellGame(string title){
-	bool found = false;
-	GameNode *node = new GameNode;
-	node = root;
-	while(node !=NULL){
-		if(title.compare(node->title) < 0){
-			node = node->leftChild;
+	GameNode *node = search(title);
+	if(node!=NULL){
+		cout << "Game has been sold." << endl;
+		node->quantity = node->quantity-1;
+		cout << "Game Info:" << endl;
+		cout << "===========" << endl;
+		cout << "Ranking: " << node->ranking << endl;
+		cout << "Title: " << node->title << endl;
+		cout << "IGN rating: " << node->IGNrating << endl;
+		cout << "Price: " << node->price << endl;
+		cout << "Quantity: " << node->quantity << endl;
+		cout << "Console: " << node->console << endl;
+		if(node->quantity == 0){
+			deleteGameNode(node->title);
 		}
-		else if(title.compare(node->title) > 0){
-			node = node->rightChild;
-		}
-		else{
-			if(node->quantity > 0){
-				cout << "Game has been sold." << endl;
-				node->quantity = node->quantity-1;
-				cout << "Game Info:" << endl;
-				cout << "===========" << endl;
-				cout << "Ranking:" << node->IGNranking << endl;
-				cout << "Title:" << node->title << endl;
-				cout << "Year:" << node->relyear << endl;
-				cout << "Quantity:" << node->quantity << endl;
-				found = true;
-				if(node->quantity == 0){
-					deleteGameNode(node->title);
-				}
-				break;
-			}
-			else{
-			cout <<"Game out of stock." << endl;
-			}
-		}
-
 	}
-	if(found == false){
-		cout << "Game not found." << endl;
+	else{
+		cout <<"Game out of stock.\n Locate in a different branch." << endl;
 	}
 }
 
@@ -110,7 +84,7 @@ void GSTree::printGameInventory(GameNode *node){
 	if(node->leftChild !=NULL){
 		printGameInventory(node->leftChild);
 	}
-	cout << "Game: " << node->title << " " << node->quantity << endl;
+	cout << node->title << ":\n" << node->console << " " << node->quantity << " - " << node->price << "$ - " << node->IGNrating <<endl;
 	if(node->rightChild != NULL){
 		printGameInventory(node->rightChild);
 	}
@@ -242,26 +216,6 @@ void GSTree::DeleteAll(GameNode *node){
 	}
 }
 
-GameNode* GSTree::search(std::string title){
-	bool found = false;
-	GameNode *node = root;
-	while(node !=NULL){
-		if(title.compare(node->title) < 0){
-			node = node->leftChild;
-		}
-		else if(title.compare(node->title) > 0){
-			node = node->rightChild;
-		}
-		else{
-		return node;
-		}
-
-	}
-
-	return NULL;
-
-}
-
 bool GSTree::foundInStore(string gameTitle , int *amount){
 	bool found = false;
         GameNode *node = new GameNode;
@@ -287,3 +241,53 @@ bool GSTree::foundInStore(string gameTitle , int *amount){
 
 }
 
+
+void GSTree::restockItem(string title, int amount){
+        bool found = false;
+        GameNode *node = new GameNode;
+        node = root;
+        while(node !=NULL){
+                if(title.compare(node->title) < 0){
+                        node = node->leftChild;
+                }
+                else if(title.compare(node->title) > 0){
+                        node = node->rightChild;
+                }
+                else{
+			node->quantity = node->quantity + amount;
+                        found = true;
+                        break;
+                }
+
+        }
+        if(found == false){
+		int ranking;
+		string console;
+		cout << "This game is out of stock" << endl;
+		cout << "Please enter the following information" << endl;
+		cout << "the ranking based on best selling: ";
+		cin >> ranking;
+        }
+}
+
+GameNode* GSTree::search(std::title){
+	bool found = false;
+        GameNode *node = root;
+        while(node !=NULL){
+                if(title.compare(node->title) < 0){
+                        node = node->leftChild;
+                }
+                else if(title.compare(node->title) > 0){
+                        node = node->rightChild;
+                }
+                else{
+                       return node; 
+                }
+
+        }
+        if(found == false){
+		return NULL;
+        }
+
+
+}
