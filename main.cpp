@@ -52,11 +52,12 @@ int main(int argc , char* argv[]){
 	}//end of building of BST
 		another->addGameNode(atoi(thearray[x].c_str()) , thearray[x+1] , atoi(thearray[x+2].c_str()) , atoi(thearray[x+3].c_str()));
 	string k;
-	cout << "Choose your store:" << endl;
+	cout << "=====Choose your store=====" << endl;
 	cout << "1. Boulder - Canyon Blvd" << endl;
 	cout << "2. Lafayette - Waneka Mall" << endl;
-	cout << "3. LakeWook - Colfax Ave" <<endl;
+	cout << "3. Lakewood - Colfax Ave" <<endl;
 	cout << "enter 0 to close this program" << endl;
+	cout << "=============================" << endl;
 	string store = NULL;
 	cin >> store;
 	while(store != "0"){
