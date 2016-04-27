@@ -216,7 +216,7 @@ void GSTree::DeleteAll(GameNode *node){
 	}
 }
 
-bool GSTree::foundInStore(string title , int *amount){
+bool GSTree::foundInStore(string title){
 	bool found = false;
         GameNode *node = root;
         while(node !=NULL){
@@ -227,8 +227,6 @@ bool GSTree::foundInStore(string title , int *amount){
                         node = node->rightChild;
                 }
                 else{
-			found == true;
-			*amount = node->quantity /2;
 			return true;
                 }
 
@@ -296,7 +294,24 @@ void GSTree::reprice(string title, double price){
 	}
 }
 
-void GSTree::moveToStore(){
+void GSTree::moveToStore(std::string title , int amount){	
+	GameNode *tmp = search(title);
+	if(tmp!=NULL){
+		tmp->quantity = tmp->quantity + amount;
+	}
+	else{
+	cout << "No other copies are found on the sheles, please restock and provide more information." <<endl;
+	}
 	
-	
+}
+
+int GSTree::removeFromStore(string title){
+	GameNode* tmp = search(title);
+	if(tmp!=NULL){
+		tmp->quantity = tmp->quantity/2;
+		return tmp->quantity;
+	}
+	else{
+		return 0;
+	}
 }

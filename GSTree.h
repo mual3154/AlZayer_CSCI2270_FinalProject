@@ -40,9 +40,9 @@ class GSTree
         void addGameNode(int ranking, std::string title, double IGNrating, double price, int quantity, std::string console);
         void findGame(std::string title);
         void sellGame(std::string title);
-	void removeFromStore();
-	void moveToStore();
-	bool foundInStore(std::string title, int *amount);
+	int removeFromStore(std::string title);
+	void moveToStore(std::string title , int amount);
+	bool foundInStore(std::string title);
 	void restockItem(std::string title, int amount);
 	void reprice(std::string title , double price );
     protected:

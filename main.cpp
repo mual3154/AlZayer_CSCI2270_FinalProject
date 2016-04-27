@@ -16,7 +16,6 @@ string storemenu(){
 	cout << "2. Lafayette - Waneka Mall" << endl;
 	cout << "3. Lakewood - Colfax Ave" <<endl;
 	cout << "enter 0 to close this program" << endl;
-	cout << "=============================" << endl;
 	cin >> store;
 	return store;
 }
@@ -35,12 +34,17 @@ void showmainmenu(){
 int main(int argc , char* argv[]){
 	
 	ifstream in_stream; // start of building of BST
+	ifstream two_stream;
+	ifstream three_stream;
 	in_stream.open(argv[1]);
+	two_stream.open(argv[2]);
+	three_stream.open(argv[3]);
 	string line;
-	GSTree *bintree = new GSTree;
-	GSTree *another = new GSTree;
+	GSTree *boulder = new GSTree;
+	GSTree *laf = new GSTree;
+	GSTree *lake = new GSTree;
 	int counter = 0;
-	string thearray[300];
+	string thearray[6];
 	string secline;
 	int c2 = 0;
 	
@@ -61,15 +65,57 @@ int main(int argc , char* argv[]){
 			counter++;
 		}
 	}
-	cout << "we out here" << endl;
-	for(int x = 0; x<300 ; x=x+6){
-		bintree->addGameNode(atoi(thearray[x].c_str()) , thearray[x+1] , atof(thearray[x+2].c_str()) , atof(thearray[x+3].c_str() ) , atoi(thearray[x+4].c_str()) , thearray[x+5]);
-		cout << "we hungry " << c2++ << " " << thearray[x] << endl;
+
+	for(int x = 0; x<6 ; x=x+6){
+		boulder->addGameNode(atoi(thearray[x].c_str()) , thearray[x+1] , atof(thearray[x+2].c_str()) , atof(thearray[x+3].c_str() ) , atoi(thearray[x+4].c_str()) , thearray[x+5]);
 	}//end of building of BST
-		//another->addGameNode(atoi(thearray[x].c_str()) , thearray[x+1] , atoi(thearray[x+2].c_str()) , atoi(thearray[x+3].c_str()));
+
+	string twoarray[6];	
+	while(!two_stream.eof()){
+                getline(two_stream, line, ',');
+                int m = line.find('\n');
+                if(m!=-1){
+                        secline = line.substr(m+1, line.length());
+                        line = line.substr(0,m);
+                        twoarray[counter] = line;
+                        twoarray[counter+1] = secline;
+                        counter = counter+2;
+                }
+                else{
+                        c2++;
+                        cout << c2<< endl;
+                        twoarray[counter] = line;
+                        counter++;
+                }
+        }
+	 for(int x = 0; x<6 ; x=x+6){
+                laf->addGameNode(atoi(twoarray[x].c_str()) , twoarray[x+1] , atof(twoarray[x+2].c_str()) , atof(twoarray[x+3].c_str() ) , atoi(twoarray[x+4].c_str()) , twoarray[x+5]);
+        }
+	
+	string threearray[6];
+        while(!three_stream.eof()){
+                getline(two_stream, line, ',');
+                int m = line.find('\n');
+                if(m!=-1){
+                        secline = line.substr(m+1, line.length());
+                        line = line.substr(0,m);
+                        threearray[counter] = line;
+                        threearray[counter+1] = secline;
+                        counter = counter+2;
+                }
+                else{
+                        c2++;
+                        cout << c2<< endl;
+                        threearray[counter] = line;
+                        counter++;
+                }
+        }
+         for(int x = 0; x<6 ; x=x+6){
+                lake->addGameNode(atoi(threearray[x].c_str()) , threearray[x+1] , atof(threearray[x+2].c_str()) , atof(threearray[x+3].c_str() ) , atoi(threearray[x+4].c_str()) , threearray[x+5]);
+        }
+
+	
 	string k, store;
-	//showstoremenu();
-	//cin >> store;
 	while(store != "0"){	
 		string store = storemenu();
 		if(store == "0"){
@@ -85,7 +131,7 @@ int main(int argc , char* argv[]){
 					string l;
 					getline(cin, l , '\n');
 					getline(cin, l , '\n');
-					bintree->findGame(l);
+					boulder->findGame(l);
 				}
 				else if(k=="2"){
 					//sell a game
@@ -93,37 +139,35 @@ int main(int argc , char* argv[]){
 					string l;
 					getline(cin, l, '\n');
 					getline(cin, l, '\n');
-					bintree->sellGame(l);
+					boulder->sellGame(l);
 				}
 				else if(k=="3"){
 					//printing game inventory
-					bintree->printGameInventory();
+					boulder->printGameInventory();
 				}
+
 				else if(k=="4"){
-					//restocking, if not found in the tree, creates the node.	
-					int amount;
-					cout << "Enter the amount you are restocking:" << endl;
-					getline(cin, str , '\n');
-					getline(cin, str , '\n');
-					bintree->restockItem(amount);
-				}
-				else if(k=="5"){
-					
+                                        //restocking, if not found in the tree, creates the node.       
+                                        string fnd, amount;
+                                        cout << "Enter the title of the game:" <<endl;
+                                        getline(cin, fnd , '\n');
+                                        getline(cin, fnd , '\n');
+
+                                        cout << "Enter the amount you are restocking:" << endl;
+                                        getline(cin, amount , '\n');
+                                        getline(cin, amount , '\n');
+                                        boulder->restockItem( fnd , atoi(amount.c_str()));
+                                }
+				else if(k=="5"){	
 					string fnd;
 					cout << "Enter the title of the game to find:" << endl; 
 					getline(cin, fnd , '\n');
 					getline(cin, fnd , '\n');
-					//remove one of three:
-					bool bldr = boulder->foundInStore(title);
-					bool laff = laf->foundInStore(title);
-					bool wood = lake->foundInStore(title);
-					cout << "In Boulder: " << bldr << endl;
-					if(bldr == true){
-						boulder->findGame(fnd);
-					}
+					bool laff = laf->foundInStore(fnd);
+					bool wood = lake->foundInStore(fnd);
 					cout << "In Lafayette: " << laff << endl;
 					if(laff == true){
-						laff->findGame(fnd);
+						laf->findGame(fnd);
 					}
 					cout << "In Lakewood: " << wood<<endl;
 					if(wood == true){
@@ -132,105 +176,252 @@ int main(int argc , char* argv[]){
 				}
 				else if(k=="6"){
 				//change in price
-					string fnd;
-					double newprice;
+					string fnd , newprice;
 					cout << "Enter the title of the game:" << endl;
 					getline(cin, fnd , '\n');
 					getline(cin, fnd , '\n');
 					cout << "Enter the new price in the form (xx.xx):" << endl;
 					getline(cin, newprice , '\n');
 					getline(cin, newprice , '\n');
-					boulder->reprice(fnd , newprice);
+					boulder->reprice(fnd , atof(newprice.c_str()));
 				}
 				else if(k=="7"){
 				//move from other store
-					
+					string fnd,title;
+					cout << "Enter the title of the game:" <<endl;
+					getline(cin, title , '\n');
+					getline(cin, title , '\n');
+					bool bldr = boulder->foundInStore(title);
+					bool laff = laf->foundInStore(title);
+					bool wood = lake->foundInStore(title);
+					cout << "In Lafayette: " << laff << endl;
+					cout << "In Lakewood: " << wood<<endl;
+					cout << "=====Move from=======" << endl;
+					cout << "1. Lafayette" << endl;
+					cout << "2. Lakewood" << endl;
+					getline(cin, fnd , '\n');
+					getline(cin, fnd , '\n');
+					if(bldr == true){
+						if(fnd == "1" && laff == true){
+							int x = laf->removeFromStore(title);
+							boulder->moveToStore(fnd , x);
+						}
+						else if(fnd =="2" && wood ==true){
+							int x = lake->removeFromStore(title);
+							boulder->moveToStore(title,x);
+						}
+					}
+					else{
+						cout << "Please add at least one copy onto the shelf to request more from other branches. Provide the price, ranking in terms of best selling, and the current IGN ranking from the branch manager." << endl;
+					}
+	
 				}
 			}
 		}
 		else if(store == "2"){
-			while(k!="7"){
-                                showmainmenu();
-                                cin >> k;
-                                if(k == "1"){
-                                        cout << "Enter title:" << endl;
-                                        string l;
-                                        getline(cin, l , '\n');
-                                        getline(cin, l , '\n');
-                                        bintree->findGame(l);
-                                }
-                                else if(k=="2"){
-                                        cout << "Enter title:" << endl;
-                                        string l;
-                                        getline(cin, l, '\n');
-                                        getline(cin, l, '\n');
-                                        bintree->sellGame(l);
-                                }
-                                else if(k=="3"){
-                                        bintree->printGameInventory();
-                                }
-                                else if(k=="4"){
-                                        string str;
-                                        cout << "Enter a title:" << endl;
-                                        getline(cin, str , '\n');
-                                        getline(cin, str , '\n');
-                                        bintree->deleteGameNode(str);
-                                }
-                                else if(k=="5"){
-                                        //counting the movies
-                                        cout  << "Tree contains: " << bintree->countGameNodes() << " movies." << endl;
-                                }
-                                else if(k=="6"){
+		while(k!="8"){
+				showmainmenu();
+				cin >> k;
+				if(k == "1"){
+					//find a game
+					cout << "Enter title:" << endl;
+					string l;
+					getline(cin, l , '\n');
+					getline(cin, l , '\n');
+					laf->findGame(l);
+				}
+				else if(k=="2"){
+					//sell a game
+					cout << "Enter title:" << endl;
+					string l;
+					getline(cin, l, '\n');
+					getline(cin, l, '\n');
+					laf->sellGame(l);
+				}
+				else if(k=="3"){
+					//printing game inventory
+					laf->printGameInventory();
+				}
+				else if(k=="4"){
+                                        //restocking, if not found in the tree, creates the node.       
+                                        string fnd, amount;
+                                        cout << "Enter the title of the game:" <<endl;
+                                        getline(cin, fnd , '\n');
+                                        getline(cin, fnd , '\n');
 
-                                        cout << "Finding Inception in the other stores" << endl;
-                                        //bintree->locateInStores(bintree , another , another , "Inception");
-                                }
-                        }
+                                        cout << "Enter the amount you are restocking:" << endl;
+                                        getline(cin, amount , '\n');
+                                        getline(cin, amount , '\n');
+                                        laf->restockItem( fnd , atoi(amount.c_str()));
+
+				}
+				else if(k=="5"){
+					
+					string fnd;
+					cout << "Enter the title of the game to find:" << endl; 
+					getline(cin, fnd , '\n');
+					getline(cin, fnd , '\n');
+					//remove one of three:
+					bool bldr = boulder->foundInStore(fnd);
+					bool wood = lake->foundInStore(fnd);
+					cout << "In Boulder: " << bldr << endl;
+					if(bldr == true){
+						boulder->findGame(fnd);
+					}
+					cout << "In Lakewood: " << wood<<endl;
+					if(wood == true){
+						lake->findGame(fnd);
+					}
+				}
+				else if(k=="6"){
+				//change in price
+					string fnd, newprice;
+					cout << "Enter the title of the game:" << endl;
+					getline(cin, fnd , '\n');
+					getline(cin, fnd , '\n');
+					cout << "Enter the new price in the form (xx.xx):" << endl;
+					getline(cin, newprice , '\n');
+					getline(cin, newprice , '\n');
+					laf->reprice(fnd , atof(newprice.c_str()));
+				}
+				else if(k=="7"){
+				//move from other store
+					string title,fnd;
+					cout << "Enter the title of the game:" <<endl;
+					getline(cin,title, '\n');
+					getline(cin, title , '\n');
+					bool bldr = boulder->foundInStore(title);
+					bool laff = laf->foundInStore(title);
+					bool wood = lake->foundInStore(title);
+					cout << "In Boulder: " << bldr << endl;
+					cout << "In Lakewood: " << wood<<endl;
+					cout << "=====Move from=======" << endl;
+					cout << "1. Boulder" << endl;
+					cout << "2. Lakewood" << endl;
+					getline(cin, fnd , '\n');
+					getline(cin, fnd , '\n');
+					if(laff == true){
+						if(fnd == "1" && bldr == true){
+							int x = boulder->removeFromStore(title);
+							//moveToStore = the one you add to
+							laf->moveToStore(title , x);
+							//removefromstore = the one you remove from
+						}
+						else if(fnd =="2" && wood ==true){
+							int x = lake->removeFromStore(title);
+							laf->moveToStore(title, x);
+						}
+					}
+					else{
+						cout << "Please add at least one copy onto the shelf to request more from other branches. Provide the price, ranking in terms of best selling, and the current IGN ranking from the branch manager." << endl;
+					}
+	
+				}
+			}	
 		}
 		else if(store == "3"){
-			while(k!="7"){
-                                showmainmenu();
-                                cin >> k;
-                                if(k == "1"){
-                                        cout << "Enter title:" << endl;
-                                        string l;
-                                        getline(cin, l , '\n');
-                                        getline(cin, l , '\n');
-                                        bintree->findGame(l);
-                                }
-                                else if(k=="2"){
-                                        cout << "Enter title:" << endl;
-                                        string l;
-                                        getline(cin, l, '\n');
-                                        getline(cin, l, '\n');
-                                        bintree->sellGame(l);
-                                }
-                                else if(k=="3"){
-                                        bintree->printGameInventory();
-                                }
-                                else if(k=="4"){
-                                        string str;
-                                        cout << "Enter a title:" << endl;
-                                        getline(cin, str , '\n');
-                                        getline(cin, str , '\n');
-                                        bintree->deleteGameNode(str);
-                                }
-                                else if(k=="5"){
-                                        //counting the movies
-                                        cout  << "Tree contains: " << bintree->countGameNodes() << " movies." << endl;
-                                }
-                                else if(k=="6"){
-
-                                        cout << "Finding Inception in the other stores" << endl;
-                                        //bintree->locateInStores(bintree , another , another , "Inception");
-                                }
-                        }
-
+			while(k!="8"){
+				showmainmenu();
+				cin >> k;
+				if(k == "1"){
+					//find a game
+					cout << "Enter title:" << endl;
+					string l;
+					getline(cin, l , '\n');
+					getline(cin, l , '\n');
+					lake->findGame(l);
+				}
+				else if(k=="2"){
+					//sell a game
+					cout << "Enter title:" << endl;
+					string l;
+					getline(cin, l, '\n');
+					getline(cin, l, '\n');
+					lake->sellGame(l);
+				}
+				else if(k=="3"){
+					//printing game inventory
+					lake->printGameInventory();
+				}
+				else if(k=="4"){
+					//restocking, if not found in the tree, creates the node.	
+					string fnd, amount;
+					cout << "Enter the title of the game:" <<endl;
+					getline(cin, fnd , '\n');
+					getline(cin, fnd , '\n');
+					
+					cout << "Enter the amount you are restocking:" << endl;
+					getline(cin, amount , '\n');
+					getline(cin, amount , '\n');
+					lake->restockItem( fnd , atoi(amount.c_str()));
+				}
+				else if(k=="5"){
+					
+					string fnd;
+					cout << "Enter the title of the game to find:" << endl; 
+					getline(cin, fnd , '\n');
+					getline(cin, fnd , '\n');
+					//remove one of three:
+					bool bldr = boulder->foundInStore(fnd);
+					bool laff = laf->foundInStore(fnd);
+					cout << "In Boulder: " << bldr << endl;
+					if(bldr == true){
+						boulder->findGame(fnd);
+					}
+					cout << "In Lafayette: " << laff << endl;
+					if(laff == true){
+						laf->findGame(fnd);
+					}
+					
+				}
+				else if(k=="6"){
+				//change in price
+					string fnd, newprice;
+					cout << "Enter the title of the game:" << endl;
+					getline(cin, fnd , '\n');
+					getline(cin, fnd , '\n');
+					cout << "Enter the new price in the form (xx.xx):" << endl;
+					getline(cin, newprice , '\n');
+					getline(cin, newprice , '\n');
+					lake->reprice(fnd , atof(newprice.c_str()));
+				}
+				else if(k=="7"){
+				//move from other store
+					string fnd, title;
+					cout << "Enter the title of the game:" <<endl;
+					getline(cin, title , '\n');
+					getline(cin, title , '\n');
+					bool bldr = boulder->foundInStore(title);
+					bool laff = laf->foundInStore(title);
+					bool wood = lake->foundInStore(title);
+					cout << "In Boulder: " << bldr<<endl;
+					cout << "In Lafayette: " << laff << endl;
+					cout << "=====Move from=======" << endl;
+					cout << "1. Boulder" << endl;
+					cout << "2. Lafayette" << endl;
+					getline(cin, fnd , '\n');
+					getline(cin, fnd , '\n');
+					if(wood == true){
+						if(fnd == "1" && bldr == true){
+							int x = boulder->removeFromStore(title);
+							lake->moveToStore(title , x);
+						}
+						else if(fnd =="2" && laff ==true){
+							int x = laf->removeFromStore(title);
+							lake->moveToStore( title , x);
+						}
+					}
+					else{
+						cout << "Please add at least one copy onto the shelf to request more from other branches. Provide the price, ranking in terms of best selling, and the current IGN ranking from the branch manager." << endl;
+					}
+	
+				}
+			}
 		}
-	cout << store << endl;
 	k = "0";
 	}	
 	//deconstruct for all BST's
-	bintree->DeleteAll();	
-	
+	boulder->DeleteAll();	
+	laf->DeleteAll();
+	lake->DeleteAll();
 }
