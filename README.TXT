@@ -14,3 +14,4 @@ this would look like the following:
 
 I worked on this alone, i apologize for the lack of formatting and notes.
 I did not spend too much time in looking for bugs, so hopefully you can catch them and fix them.
+There could also be some issues that are solved on Boulder, but not on Lakewood.
