@@ -1,4 +1,5 @@
 #include "GSTree.h"
+#include<algorithm>
 #include<string>
 #include<iostream>
 using namespace std;
@@ -84,7 +85,7 @@ void GSTree::printGameInventory(GameNode *node){
 	if(node->leftChild !=NULL){
 		printGameInventory(node->leftChild);
 	}
-	cout << node->title << ":\n" << node->console << " " << node->quantity << " - " << node->price << "$ - " << node->IGNrating <<endl;
+	cout << node->title << ": " << node->console << "\nQuantity: " << node->quantity << " with the price of - " << node->price << "$ and the IGN Rating of - " << node->IGNrating <<endl;
 	if(node->rightChild != NULL){
 		printGameInventory(node->rightChild);
 	}
@@ -200,7 +201,6 @@ void GSTree::deleteGameNode(std::string title){
 void GSTree::DeleteAll(){
 	GameNode *tmp = root;
 	DeleteAll(tmp);
-	cout << "Goodbye!" << endl;
 }
 
 void GSTree::DeleteAll(GameNode *node){
@@ -211,7 +211,6 @@ void GSTree::DeleteAll(GameNode *node){
 		if(node->rightChild !=NULL){
 			DeleteAll(node->rightChild);
 		}
-	cout << "Deleting: " << node->title << endl;
 	delete node;
 	}
 }
@@ -244,9 +243,7 @@ void GSTree::restockItem(string title, int amount){
 	if(node !=NULL){
 		node->quantity = node->quantity + amount;
 	}else{
-		double price, IGNrating;
-		int ranking;
-		string console;
+		string console, price, IGNrating, ranking;
 		cout << "This game is out of stock" << endl;
 		cout << "Please enter the following information" << endl;
 		cout << "the ranking based on best selling: ";
@@ -257,9 +254,10 @@ void GSTree::restockItem(string title, int amount){
 		cin >> price;
 		cout << "the IGN rating: ";
 		cin >> IGNrating;
-		addGameNode(ranking, title, IGNrating, price, amount, console);
+		addGameNode(atoi(ranking.c_str()), title, atof(IGNrating.c_str()), atof(price.c_str()), amount, console);
 		
         }
+	findGame(title);
 }
 
 GameNode* GSTree::search(std::string title){
@@ -288,6 +286,7 @@ void GSTree::reprice(string title, double price){
 	GameNode *tmp = search(title);
 	if(tmp!=NULL){
 		tmp->price = price;
+		findGame(title);
 	}
 	else{
 		cout << "Game not found" << endl;
@@ -296,19 +295,29 @@ void GSTree::reprice(string title, double price){
 
 void GSTree::moveToStore(std::string title , int amount){	
 	GameNode *tmp = search(title);
+	int old = tmp->quantity;
+	int newq = tmp->quantity;
 	if(tmp!=NULL){
-		tmp->quantity = tmp->quantity + amount;
+		newq = old + amount;
+		tmp->quantity = newq;
 	}
 	else{
-	cout << "No other copies are found on the sheles, please restock and provide more information." <<endl;
+	cout << "No other copies are found on the shelves, please restock and provide more information." <<endl;
 	}
+	cout << "Quantity increased from: " << old << " to: " <<newq << endl;
+	findGame(title);
 	
 }
 
 int GSTree::removeFromStore(string title){
 	GameNode* tmp = search(title);
+	int old = tmp->quantity;
+	int newq = tmp->quantity;
 	if(tmp!=NULL){
+		newq = old/2;
 		tmp->quantity = tmp->quantity/2;
+		cout << "Quantity decreased from: " << old << " to: " << newq << endl;
+		findGame(title);
 		return tmp->quantity;
 	}
 	else{

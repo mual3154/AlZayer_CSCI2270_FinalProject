@@ -21,13 +21,17 @@ string storemenu(){
 }
 void showmainmenu(){
 	//A function to print the main menu
-	cout << "======Main Menu======" << endl;
+	cout << "\n=============Main Menu=============" << endl;
 	cout << "1. Find a game" << endl;
 	cout << "2. Sell a game" << endl;
 	cout << "3. Print the inventory" << endl;
-	cout << "4. Delete a NODE" << endl;
-	cout << "5. Count the inventory" << endl;
-	cout << "6. Quit" << endl;
+	cout << "4. Restock the shelf" << endl;
+	cout << "5. Locate in other branches"  << endl;
+	cout << "6. Change the price" << endl;
+	cout << "7. Request moving from other store" << endl;
+	cout << "8. Quit this branches database" << endl;
+	cout << "===================================\n" << endl;
+
 }
 
 
@@ -44,7 +48,7 @@ int main(int argc , char* argv[]){
 	GSTree *laf = new GSTree;
 	GSTree *lake = new GSTree;
 	int counter = 0;
-	string thearray[6];
+	string thearray[90];
 	string secline;
 	int counter2=0;
 	int counter3=0;
@@ -61,18 +65,16 @@ int main(int argc , char* argv[]){
 			counter = counter+2;
 		}
 		else{
-			c2++;
-			cout << c2<< endl;
 			thearray[counter] = line;
 			counter++;
 		}
 	}
 
-	for(int x = 0; x<6 ; x=x+6){
+	for(int x = 0; x<90 ; x=x+6){
 		boulder->addGameNode(atoi(thearray[x].c_str()) , thearray[x+1] , atof(thearray[x+2].c_str()) , atof(thearray[x+3].c_str() ) , atoi(thearray[x+4].c_str()) , thearray[x+5]);
 	}//end of building of BST
 
-	string twoarray[6];	
+	string twoarray[90];	
 	while(!two_stream.eof()){
                 getline(two_stream, line, ',');
                 int m = line.find('\n');
@@ -84,19 +86,15 @@ int main(int argc , char* argv[]){
                         counter2 = counter2+2;
                 }
                 else{
-                        c2++;
-                        cout << c2<< endl;
                         twoarray[counter2] = line;
                         counter2++;
                 }
-	c2++;
-	cout << c2 << endl;
         }
-	 for(int x = 0; x<6 ; x=x+6){
+	 for(int x = 0; x<90 ; x=x+6){
                 laf->addGameNode(atoi(twoarray[x].c_str()) , twoarray[x+1] , atof(twoarray[x+2].c_str()) , atof(twoarray[x+3].c_str() ) , atoi(twoarray[x+4].c_str()) , twoarray[x+5]);
         }
 	
-	string threearray[6];
+	string threearray[90];
         while(!three_stream.eof()){
                 getline(three_stream, line, ',');
                 int m = line.find('\n');
@@ -108,18 +106,17 @@ int main(int argc , char* argv[]){
                         counter3 = counter3+2;
                 }
                 else{
-                        c2++;
-                        cout << c2<< endl;
                         threearray[counter3] = line;
                         counter3++;
                 }
         }
-         for(int x = 0; x<6 ; x=x+6){
+         for(int x = 0; x<90 ; x=x+6){
                 lake->addGameNode(atoi(threearray[x].c_str()) , threearray[x+1] , atof(threearray[x+2].c_str()) , atof(threearray[x+3].c_str() ) , atoi(threearray[x+4].c_str()) , threearray[x+5]);
         }
 
 	
 	string k, store;
+	cout << "\n\nWelcome to the Colorado GameStop Database!\n\n" << endl;
 	while(store != "0"){	
 		string store = storemenu();
 		if(store == "0"){
@@ -156,13 +153,12 @@ int main(int argc , char* argv[]){
                                         cout << "Enter the title of the game:" <<endl;
                                         getline(cin, fnd , '\n');
                                         getline(cin, fnd , '\n');
-
                                         cout << "Enter the amount you are restocking:" << endl;
-                                        getline(cin, amount , '\n');
                                         getline(cin, amount , '\n');
                                         boulder->restockItem( fnd , atoi(amount.c_str()));
                                 }
-				else if(k=="5"){	
+				else if(k=="5"){
+					//locate in other stores	
 					string fnd;
 					cout << "Enter the title of the game to find:" << endl; 
 					getline(cin, fnd , '\n');
@@ -186,8 +182,8 @@ int main(int argc , char* argv[]){
 					getline(cin, fnd , '\n');
 					cout << "Enter the new price in the form (xx.xx):" << endl;
 					getline(cin, newprice , '\n');
-					getline(cin, newprice , '\n');
 					boulder->reprice(fnd , atof(newprice.c_str()));
+					
 				}
 				else if(k=="7"){
 				//move from other store
@@ -204,7 +200,6 @@ int main(int argc , char* argv[]){
 					cout << "1. Lafayette" << endl;
 					cout << "2. Lakewood" << endl;
 					getline(cin, fnd , '\n');
-					getline(cin, fnd , '\n');
 					if(bldr == true){
 						if(fnd == "1" && laff == true){
 							int x = laf->removeFromStore(title);
@@ -213,6 +208,9 @@ int main(int argc , char* argv[]){
 						else if(fnd =="2" && wood ==true){
 							int x = lake->removeFromStore(title);
 							boulder->moveToStore(title,x);
+						}
+						else{
+							cout << "This game is not available in the requested store. Try in another store or another item" << endl;
 						}
 					}
 					else{
@@ -255,7 +253,6 @@ int main(int argc , char* argv[]){
 
                                         cout << "Enter the amount you are restocking:" << endl;
                                         getline(cin, amount , '\n');
-                                        getline(cin, amount , '\n');
                                         laf->restockItem( fnd , atoi(amount.c_str()));
 
 				}
@@ -285,7 +282,6 @@ int main(int argc , char* argv[]){
 					getline(cin, fnd , '\n');
 					cout << "Enter the new price in the form (xx.xx):" << endl;
 					getline(cin, newprice , '\n');
-					getline(cin, newprice , '\n');
 					laf->reprice(fnd , atof(newprice.c_str()));
 				}
 				else if(k=="7"){
@@ -303,7 +299,6 @@ int main(int argc , char* argv[]){
 					cout << "1. Boulder" << endl;
 					cout << "2. Lakewood" << endl;
 					getline(cin, fnd , '\n');
-					getline(cin, fnd , '\n');
 					if(laff == true){
 						if(fnd == "1" && bldr == true){
 							int x = boulder->removeFromStore(title);
@@ -315,6 +310,10 @@ int main(int argc , char* argv[]){
 							int x = lake->removeFromStore(title);
 							laf->moveToStore(title, x);
 						}
+						else{
+						cout << "Please add at least one copy onto the shelf to request more from other branches. Provide the price, ranking in terms of best selling, and the current IGN ranking from the branch manager." << endl;
+						}
+
 					}
 					else{
 						cout << "Please add at least one copy onto the shelf to request more from other branches. Provide the price, ranking in terms of best selling, and the current IGN ranking from the branch manager." << endl;
@@ -356,7 +355,6 @@ int main(int argc , char* argv[]){
 					
 					cout << "Enter the amount you are restocking:" << endl;
 					getline(cin, amount , '\n');
-					getline(cin, amount , '\n');
 					lake->restockItem( fnd , atoi(amount.c_str()));
 				}
 				else if(k=="5"){
@@ -386,7 +384,6 @@ int main(int argc , char* argv[]){
 					getline(cin, fnd , '\n');
 					cout << "Enter the new price in the form (xx.xx):" << endl;
 					getline(cin, newprice , '\n');
-					getline(cin, newprice , '\n');
 					lake->reprice(fnd , atof(newprice.c_str()));
 				}
 				else if(k=="7"){
@@ -404,7 +401,6 @@ int main(int argc , char* argv[]){
 					cout << "1. Boulder" << endl;
 					cout << "2. Lafayette" << endl;
 					getline(cin, fnd , '\n');
-					getline(cin, fnd , '\n');
 					if(wood == true){
 						if(fnd == "1" && bldr == true){
 							int x = boulder->removeFromStore(title);
@@ -413,6 +409,9 @@ int main(int argc , char* argv[]){
 						else if(fnd =="2" && laff ==true){
 							int x = laf->removeFromStore(title);
 							lake->moveToStore( title , x);
+						}
+						else{
+							cout << "Please add at least one copy onto the shelf to request more from other branches. Provide the price, ranking in terms of best selling, and the current IGN ranking from the branch manager." << endl;
 						}
 					}
 					else{

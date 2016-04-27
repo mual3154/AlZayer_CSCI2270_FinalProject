@@ -1,1 +1,15 @@
-1,boulder,12.23,59.99,12,xbox
+1,Ratchet and Clank,9.8,39.99,24,PS4
+2,Fallout 4: Season Pass Bundle,8.5,99.99,4,PS4&PC
+3,Bravely Second: End Layer edition,10.0,69.99,22,3DS
+4,The Legend of Zelda - Collectors edition,8.6,89.99,10,WIIU
+5,Tokyo Mirage Sessions,0.0,79.99,50,WIIU
+6,Uncharted 4,10.0,59.99,50,PS4
+7,Gears of War 4,10.0,59.99,50,XBOX1
+8,Overwatch,8.8,59.99,50,XBOX1&PS4
+9,Doom,9.2,59.99,50,PS4
+10,Destiny: Digital Guardian Edition,9.5,89.99,24,PS3
+11,MiceCraft,8.2,19.99,12,XBOX1
+12,Far Cry 4,7.7,49.99,8,PC
+13,World of Warcraft,7.8,19.99,10,PC
+14,Wasteland 2,8.0,39.99,6,PC
+15,Dragon Age Inquisition,7.8,60.00,7,XBOX1
