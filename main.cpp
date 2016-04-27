@@ -46,6 +46,8 @@ int main(int argc , char* argv[]){
 	int counter = 0;
 	string thearray[6];
 	string secline;
+	int counter2=0;
+	int counter3=0;
 	int c2 = 0;
 	
 	while(!in_stream.eof()){
@@ -77,16 +79,18 @@ int main(int argc , char* argv[]){
                 if(m!=-1){
                         secline = line.substr(m+1, line.length());
                         line = line.substr(0,m);
-                        twoarray[counter] = line;
-                        twoarray[counter+1] = secline;
-                        counter = counter+2;
+                        twoarray[counter2] = line;
+                        twoarray[counter2+1] = secline;
+                        counter2 = counter2+2;
                 }
                 else{
                         c2++;
                         cout << c2<< endl;
-                        twoarray[counter] = line;
-                        counter++;
+                        twoarray[counter2] = line;
+                        counter2++;
                 }
+	c2++;
+	cout << c2 << endl;
         }
 	 for(int x = 0; x<6 ; x=x+6){
                 laf->addGameNode(atoi(twoarray[x].c_str()) , twoarray[x+1] , atof(twoarray[x+2].c_str()) , atof(twoarray[x+3].c_str() ) , atoi(twoarray[x+4].c_str()) , twoarray[x+5]);
@@ -94,20 +98,20 @@ int main(int argc , char* argv[]){
 	
 	string threearray[6];
         while(!three_stream.eof()){
-                getline(two_stream, line, ',');
+                getline(three_stream, line, ',');
                 int m = line.find('\n');
                 if(m!=-1){
                         secline = line.substr(m+1, line.length());
                         line = line.substr(0,m);
-                        threearray[counter] = line;
-                        threearray[counter+1] = secline;
-                        counter = counter+2;
+                        threearray[counter3] = line;
+                        threearray[counter3+1] = secline;
+                        counter3 = counter3+2;
                 }
                 else{
                         c2++;
                         cout << c2<< endl;
-                        threearray[counter] = line;
-                        counter++;
+                        threearray[counter3] = line;
+                        counter3++;
                 }
         }
          for(int x = 0; x<6 ; x=x+6){
