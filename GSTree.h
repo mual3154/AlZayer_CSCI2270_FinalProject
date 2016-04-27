@@ -5,7 +5,7 @@
 #include<string>
 struct GameNode{
     int ranking;
-    int IGNrating;
+    double IGNrating;
     std::string title;
     std::string console;
     double price;
@@ -16,7 +16,7 @@ struct GameNode{
 
     GameNode(){};
 
-    GameNode(int in_ranking, std::string in_title, int in_IGNrating , double in_price, int in_quantity, std::string in_console)
+    GameNode(int in_ranking, std::string in_title, double in_IGNrating , double in_price, int in_quantity, std::string in_console)
     {
         ranking = in_ranking;
         title = in_title;
@@ -37,12 +37,14 @@ class GSTree
 	void DeleteAll();
 	void deleteGameNode(std::string title);
 	void printGameInventory();
-        void addGameNode(int ranking, std::string title, int IGNrating, double price, int quantity, std::string console);
+        void addGameNode(int ranking, std::string title, double IGNrating, double price, int quantity, std::string console);
         void findGame(std::string title);
         void sellGame(std::string title);
 	void removeFromStore();
 	void moveToStore();
-	bool foundInStore(std::string gameTitle);
+	bool foundInStore(std::string title, int *amount);
+	void restockItem(std::string title, int amount);
+	void reprice(std::string title , double price );
     protected:
     private:
 	
@@ -51,7 +53,7 @@ class GSTree
         GameNode *root;
 	GameNode* treeMinimum(GameNode *node);
 	void DeleteAll(GameNode *node);
-	void countGameNodes(GameNode *node, int *c);
+	void countGameNodes(GameNode *node, int* c);
 
 };
 
